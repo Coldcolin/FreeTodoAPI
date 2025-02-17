@@ -20,6 +20,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
 });
 
+app.get('/', (req, res) => {
+  res.json({ status: 'OK' });
+});
+
 // Database connection
 let cachedDb = null;
 
