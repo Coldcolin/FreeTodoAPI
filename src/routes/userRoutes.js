@@ -106,7 +106,7 @@ router.get('/verify-email', async (req, res) => {
 // Resend verification email
 router.post('/resend-verification-email', async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, baseUrl } = req.body;
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -127,7 +127,7 @@ router.post('/resend-verification-email', async (req, res) => {
     user.verificationTokenExpires = Date.now() + 24 * 60 * 60 * 1000;
     await user.save();
 
-    const verificationUrl = `${process.env.BASE_URL}/user/verify-email?token=${verificationToken}`;
+    const verificationUrl = `${baseUrl}/user/verify-email?token=${verificationToken}`;
     await transporter.sendMail({
       to: email,
       subject: 'Verify your email',
