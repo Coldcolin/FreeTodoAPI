@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 // Sign up
 router.post('/sign-up', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, baseUrl } = req.body;
     
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -40,7 +40,7 @@ router.post('/sign-up', async (req, res) => {
     await user.save();
 
     // Send verification email
-    const verificationUrl = `${process.env.BASE_URL}/user/verify-email?token=${verificationToken}`;
+    const verificationUrl = `${baseUrl}/user/verify-email?token=${verificationToken}`;
     await transporter.sendMail({
       to: email,
       subject: 'Verify your email',
